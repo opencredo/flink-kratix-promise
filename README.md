@@ -1,3 +1,4 @@
+[![Docker](https://github.com/opencredo/promise-flink/actions/workflows/docker-publish.yml/badge.svg?branch=main)](https://github.com/opencredo/promise-flink/actions/workflows/docker-publish.yml)
 ## Kratix-based Flink Promise Operator 
 
 This project provides a Kubernetes operator for managing Flink jobs using a Kratix-backed state store. 
