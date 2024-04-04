@@ -15,6 +15,7 @@ on:
   pull_request:
     branches:
       - 'feat/**'
+      - 'fix/**'
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -84,6 +85,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           platforms: linux/amd64,linux/arm64
-          file: internal/configure-pipeline
+          file: internal/configure-pipeline/Dockerfile
           cache-from: type=gha
           cache-to: type=gha,mode=max
