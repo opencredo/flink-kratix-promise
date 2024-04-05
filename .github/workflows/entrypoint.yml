@@ -27,5 +27,6 @@ jobs:
     secrets: inherit
   build:
     name: Docker
+    needs: linter
     uses: ./.github/workflows/docker-publish.yml
     secrets: inherit

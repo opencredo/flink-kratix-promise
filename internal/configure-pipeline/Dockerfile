@@ -1,4 +1,3 @@
-# trunk-ignore(checkov/CKV_DOCKER_2)
 # Stage 1: Build Stage
 FROM alpine:3.19 AS build
 
@@ -13,7 +12,6 @@ RUN apk update && apk add --no-cache yq
 
 COPY resources /tmp/transfer/resources/
 COPY dependencies/ /tmp/transfer/dependencies/
-# trunk-ignore(hadolint/DL3045)
 COPY ./execute-pipeline execute-pipeline
 
 RUN chmod +x execute-pipeline &&\
