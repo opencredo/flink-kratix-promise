@@ -14,9 +14,8 @@ COPY resources /tmp/transfer/resources/
 COPY dependencies/ /tmp/transfer/dependencies/
 COPY ./execute-pipeline execute-pipeline
 
-RUN chmod +x execute-pipeline 
-
-RUN ./execute-pipeline build
+RUN chmod +x execute-pipeline &&\
+        ./execute-pipeline build
 
 # Stage 2: Production Stage
 FROM alpine:3.19

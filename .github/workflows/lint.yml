@@ -4,8 +4,9 @@ on:
   workflow_call:
 
 permissions:
-  actions: read
-  id-token: write
+  contents: read
+  packages: read
+  statuses: write
 
 jobs:
   lint:
