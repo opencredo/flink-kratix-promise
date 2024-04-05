@@ -24,10 +24,11 @@ jobs:
   linter:
     name: Linter
     uses: ./.github/workflows/lint.yml
-    deployments: read
-    discussions: read
-    pages: read
-    repository-projects: read
+    permissions:
+      deployments: read
+      discussions: read
+      pages: read
+      repository-projects: read
     secrets: inherit
   build:
     name: Docker
