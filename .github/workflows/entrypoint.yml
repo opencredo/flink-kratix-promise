@@ -16,7 +16,7 @@ permissions:
   issues: read
   packages: write
   pull-requests: write
-  statuses: read
+  statuses: write
   security-events: write
   id-token: write
 
