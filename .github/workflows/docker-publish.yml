@@ -1,5 +1,3 @@
-# trunk-ignore(checkov/CKV2_GHA_1)
-
 name: Docker
 
 on:
