@@ -1,22 +1,15 @@
-name: Linter
+---
+name: Lint Code Base
+on:
+  workflow_call:
 
-on: # yamllint disable-line rule:truthy
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+permissions: read-all
 
 jobs:
-  build:
-    name: Lint
+  lint:
+    name: Lint Codebase
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: read
-      # To report GitHub Actions status checks
-      statuses: write
-
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
