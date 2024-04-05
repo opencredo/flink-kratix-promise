@@ -23,7 +23,7 @@ permissions:
 jobs:
   linter:
     name: Linter
-    uses: ./.github/workflows/lint.yml
+    uses: ./.github/workflows/linter.yml
     secrets: inherit
   build:
     name: Docker
