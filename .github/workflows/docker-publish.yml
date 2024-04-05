@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
@@ -36,8 +36,6 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          permissions:
-            contents: write # Write needed just for this step
 
       - name: Create a GitHub release
         if: github.event_name != 'pull_request'
