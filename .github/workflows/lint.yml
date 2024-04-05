@@ -3,7 +3,9 @@ name: Lint Code Base
 on:
   workflow_call:
 
-permissions: read-all
+permissions:
+  actions: read
+  id-token: write
 
 jobs:
   lint:
