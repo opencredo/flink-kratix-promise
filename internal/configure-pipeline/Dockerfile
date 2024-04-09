@@ -1,3 +1,10 @@
+FROM rust:latest AS rust-build
+WORKDIR /app
+
+COPY ./driver ./
+
+RUN cargo build --release
+
 # Stage 1: Build Stage
 FROM alpine:3.19 AS build
 
@@ -17,16 +24,8 @@ COPY ./execute-pipeline execute-pipeline
 RUN chmod +x execute-pipeline &&\
         ./execute-pipeline build
 
-# Stage 2: Production Stage
-FROM alpine:3.19
-
+FROM alpine:3.19 
 WORKDIR /app
-
-# Switch to the non-root user
-USER kratix
-
-# Copy artifacts from the build stage
-COPY --from=build /tmp/transfer /app
-
-CMD [ "sh", "-c", "./execute-pipeline" ]
-ENTRYPOINT []
+USER kratix 
+COPY --from=rust-build /app/target/release/driver /app/ 
+ENTRYPOINT ["./app/driver execute-pipeline"]
