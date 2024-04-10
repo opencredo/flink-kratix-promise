@@ -3,4 +3,4 @@ kind: flink
 metadata:
   name: flink-promise-request
 spec:
-  name: flinkoperatordeployment
+  name: flinkdep

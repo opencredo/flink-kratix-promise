@@ -11,3 +11,19 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 - A running Kubernetes cluster
 - Flink Kubernetes Operator installed (See: [https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/))
 - Docker environment with the ability to build images for both amd64 and arm64 architectures.
+
+```bash
+chmod 777 ./internal/configure-pipeline/tests/test-output
+docker run -e RUST_BACKTRACE=1 \
+  -e KRATIX_WORKFLOW_TYPE='promise' \
+  -e KRATIX_MANIFEST='/kratix/input/object.yaml' \
+  $PIPELINE_NAME
+```
+
+
+```bash
+./internal/scripts/pipeline-image build
+kubectl apply --context $PLATFORM --filename promise.yaml
+kubectl logs -l=kratix-promise-id=flinkdep -n kratix-platform-system
+
+kubectl delete --context $PLATFORM --filename promise.yaml

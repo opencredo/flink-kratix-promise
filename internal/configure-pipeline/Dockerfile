@@ -1,31 +1,43 @@
-FROM rust:latest AS rust-build
-WORKDIR /app
-
-COPY ./driver ./
-
-RUN cargo build --release
-
-# Stage 1: Build Stage
-FROM alpine:3.19 AS build
-
-# Create a non-root user
-RUN adduser -D kratix
+FROM rust:1.68.2-slim-buster as build-env
 
 LABEL org.opencontainers.image.authors "info@opencredo.com"
 LABEL org.opencontainers.image.source https://github.com/opencredo/promise-flink
 
-RUN [ "mkdir", "/tmp/transfer" ]
-RUN apk update && apk add --no-cache yq
 
-COPY resources /tmp/transfer/resources/
-COPY dependencies/ /tmp/transfer/dependencies/
-COPY ./execute-pipeline execute-pipeline
-
-RUN chmod +x execute-pipeline &&\
-        ./execute-pipeline build
-
-FROM alpine:3.19 
 WORKDIR /app
-USER kratix 
-COPY --from=rust-build /app/target/release/driver /app/ 
-ENTRYPOINT ["./app/driver execute-pipeline"]
+
+RUN apt update && apt install -y librust-openssl-dev libssl-dev
+
+RUN set -eux; \
+	adduser -u 70 -S -D -G kratix -H -h /app -s /bin/sh kratix; \
+	mkdir -p /app; \
+	mkdir -p /kratix; \
+	chown 775 /app; \
+	chown 775 /kratix;
+
+
+RUN [ "mkdir", "/tmp/transfer" ]
+COPY . /app
+RUN cargo build --release
+
+FROM gcr.io/distroless/cc-debian12
+
+
+
+COPY --from=build-env /app/resources /tmp/transfer/resources/
+COPY --from=build-env /app/dependencies/ /tmp/transfer/dependencies/
+
+COPY --from=build-env /app/target/release/configure-pipeline /
+COPY --from=build-env /app/tests/ /kratix
+
+ENV RUST_BACKTRACE=1
+
+ENV KRATIX_WORKFLOW_TYPE="promise"
+ENV PIPELINE_NAME="opencredo/flink-configure-pipeline:dev"
+ENV BASE_INSTANCE="/tmp/transfer/resources/minimal-flinkdep-manifest.yaml"
+ENV KRATIX_OUTPUT="/kratix/output"
+ENV KRATIX_INPUT="/tmp/transfer/dependencies/"
+
+
+CMD ["./configure-pipeline","pipeline"] 
+ENTRYPOINT []

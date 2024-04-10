@@ -1,6 +1,7 @@
 apiVersion: example.promise.syntasso.io/v1
 kind: # kind
 metadata:
-  name: example
+  name: flinkdeps
   namespace: default
 spec:
+  name: howard
