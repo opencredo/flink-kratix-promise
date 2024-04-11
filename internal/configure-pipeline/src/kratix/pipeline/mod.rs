@@ -21,7 +21,7 @@ pub fn load_file(file: &str) -> Result<Yaml> {
 }
 
 pub fn copy_files(source_dir: &str, destination_dir: &str) -> Result<()> {
-    println!("copy_files {}", source_dir);
+    println!("pipeline::copy_files {}", source_dir);
     // Create the output directory if it doesn't exist
     fs::create_dir_all(destination_dir)?;
 
@@ -42,11 +42,30 @@ pub fn copy_files(source_dir: &str, destination_dir: &str) -> Result<()> {
     Ok(())
 }
 
+#[warn(dead_code)]
 pub fn status() {
     if let Err(err) = fs::copy(
         "/tmp/transfer/resources/status.yaml",
         "/kratix/metadata/status.yaml",
     ) {
         println!("Error during file copy: {}", err);
+    }
+}
+
+pub fn list_files_recursively(path: &str) {
+    println!("list_files_recursively");
+    if let Ok(entries) = fs::read_dir(path) {
+        for entry in entries {
+            if let Ok(entry) = entry {
+                let path = entry.path();
+                println!("{}", path.display());
+
+                if path.is_dir() {
+                    list_files_recursively(&path.to_string_lossy()); // Recursion!
+                }
+            }
+        }
+    } else {
+        eprintln!("Error reading directory: {}", path);
     }
 }

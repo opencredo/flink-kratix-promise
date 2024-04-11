@@ -40,7 +40,7 @@ spec:
             namespace: default
           spec:
             containers:
-            - image: opencredo/flink-configure-pipeline:dev
+            - image: opencredo/flink-configure-pipeline:0.1
               name: flinkdep-promise-pipeline
               imagePullPolicy: Never
 
@@ -52,7 +52,7 @@ spec:
             name: instance-configure
           spec:
             containers:
-            - image: opencredo/flink-configure-pipeline:dev
+            - image: opencredo/flink-configure-pipeline:0.1
               name: flinkdep-configure-pipeline
               imagePullPolicy: Never
 status: {}

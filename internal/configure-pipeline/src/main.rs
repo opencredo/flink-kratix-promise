@@ -1,6 +1,7 @@
 use std::{env, process};
 mod kratix;
 
+
 fn main() {
     
     
@@ -41,5 +42,8 @@ fn main() {
             process::exit(1);
         }
     }
+
+
+
 }
 
