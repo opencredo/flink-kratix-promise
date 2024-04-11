@@ -1,3 +1,28 @@
 #!/usr/bin/env sh
 
-echo "Hello World"
+set -eux
+
+if [ $KRATIX_WORKFLOW_TYPE == "promise" ]; then
+  cp /tmp/transfer/dependencies/* /kratix/output/
+  echo "Control for operator"
+  cd /kratix/output
+  ls -lrta
+else
+  echo "Control for resource request"
+
+  base_instance="/tmp/transfer/resources/flink-basic.yaml"
+
+#  # Read current values from the provided resource request
+  name="$(yq eval '.spec.name' /kratix/input/object.yaml)"
+  namespace="$(yq eval '.spec.namespace // "default"' /kratix/input/object.yaml)"
+
+  # Replace defaults with user provided values
+  cat ${base_instance} |
+    yq eval "
+      .metadata.namespace = \"${namespace}\" |
+      .metadata.name = \"${name}\"
+    " - > /kratix/output/flink-instance.yaml
+
+    cd /kratix/output
+    ls -lart
+fi
