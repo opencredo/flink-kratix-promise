@@ -1,41 +1,23 @@
+---
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
-  name: minimal-flindep-manifest.yaml
+  name: basic-example
 spec:
-  image: flink:1.17
+  image: "flink:1.17"
   flinkVersion: v1_17
   flinkConfiguration:
     taskmanager.numberOfTaskSlots: "2"
-    state.savepoints.dir: file:///flink-data/savepoints
-    state.checkpoints.dir: file:///flink-data/checkpoints
-    high-availability: org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory
-    high-availability.storageDir: file:///flink-data/ha
   serviceAccount: flink
   jobManager:
     resource:
-      memory: "2048m"
-      cpu: 1
+      memory: 50m
+      cpu: 0.1
   taskManager:
     resource:
-      memory: "2048m"
-      cpu: 1
-  podTemplate:
-    spec:
-      containers:
-        - name: flink-main-container
-          volumeMounts:
-            - mountPath: /flink-data
-              name: flink-volume
-      volumes:
-        - name: flink-volume
-          hostPath:
-            # directory location on host
-            path: /tmp/flink
-            # this field is optional
-            type: Directory
+      memory: 50m
+      cpu: 0.1
   job:
-    jarURI: local:///opt/flink/examples/streaming/StateMachineExample.jar
+    jarURI: "local:///opt/flink/examples/streaming/StateMachineExample.jar"
     parallelism: 2
-    upgradeMode: last-state
-    state: running
+    upgradeMode: stateless

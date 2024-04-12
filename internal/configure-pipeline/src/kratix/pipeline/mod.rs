@@ -1,16 +1,12 @@
 use std::fs;
 use std::io::Result;
 use std::path::Path;
-use yaml_rust::Yaml;
-use yaml_rust::YamlLoader;
+use yaml_rust2::Yaml;
+use yaml_rust2::YamlLoader;
+use log::{info, warn};
 
 pub fn load_file(file: &str) -> Result<Yaml> {
-    // let paths = fs::read_dir("./kratix/input").unwrap();
-
-    // for path in paths {
-    //     println!("Name: {}", path.unwrap().path().display())
-    // }
-    eprintln!("---->Read file: {}", file);
+    
     let path = Path::new(file);
     let contents = fs::read_to_string(path).expect("Should have been able to read the file");
 
@@ -21,7 +17,7 @@ pub fn load_file(file: &str) -> Result<Yaml> {
 }
 
 pub fn copy_files(source_dir: &str, destination_dir: &str) -> Result<()> {
-    println!("pipeline::copy_files {}", source_dir);
+    info!("pipeline::copy_files {} to {}", source_dir, destination_dir);
     // Create the output directory if it doesn't exist
     fs::create_dir_all(destination_dir)?;
 
@@ -42,18 +38,8 @@ pub fn copy_files(source_dir: &str, destination_dir: &str) -> Result<()> {
     Ok(())
 }
 
-#[warn(dead_code)]
-pub fn status() {
-    if let Err(err) = fs::copy(
-        "/tmp/transfer/resources/status.yaml",
-        "/kratix/metadata/status.yaml",
-    ) {
-        println!("Error during file copy: {}", err);
-    }
-}
-
+#[allow(dead_code)]
 pub fn list_files_recursively(path: &str) {
-    println!("list_files_recursively");
     if let Ok(entries) = fs::read_dir(path) {
         for entry in entries {
             if let Ok(entry) = entry {
@@ -66,6 +52,17 @@ pub fn list_files_recursively(path: &str) {
             }
         }
     } else {
-        eprintln!("Error reading directory: {}", path);
+        warn!("Error reading directory: {}", path);
+    }
+}
+
+
+#[allow(dead_code)]
+pub fn status() {
+    if let Err(err) = fs::copy(
+        "/tmp/transfer/resources/status.yaml",
+        "/kratix/metadata/status.yaml",
+    ) {
+        warn!("Error during file copy: {}", err);
     }
 }

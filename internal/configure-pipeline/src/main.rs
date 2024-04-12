@@ -1,49 +1,82 @@
 use std::{env, process};
+use log;
 mod kratix;
 
+// Structure to hold potential errors
+#[derive(Debug)]
+struct EnvVarError {
+    var_name: String,
+}
+
+// validation function
+fn validate_env_vars() -> Result<(), Vec<EnvVarError>> {
+    let required_vars = vec![
+        "KRATIX_WORKFLOW_TYPE",
+        "BASE_INSTANCE",
+        "DEPENDENCIES_DIR",
+        "RESOURCES_DIR",
+        "KRATIX_INPUT",
+        "KRATIX_OUTPUT",
+    ];
+
+    let mut errors = Vec::new();
+
+    for var_name in required_vars {
+        if env::var(var_name).is_err() {
+            errors.push(EnvVarError {
+                var_name: var_name.to_string(),
+            });
+        }
+    }
+
+    if errors.is_empty() {
+        Ok(())
+    } else {
+        Err(errors)
+    }
+}
 
 fn main() {
     
-    
-    println!("UID: {}", std::process::id());
-    println!("GID: {}", std::env::var("GID").unwrap_or_default()); // Assuming you might have a GID environment variable
-    // Process command-line arguments
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 2 {
-        eprintln!("Usage: <command> [build, pipeline, load, push, rmi, pull]");
-        process::exit(1);
-    }
-
-    let workflow_type = std::env::var("KRATIX_WORKFLOW_TYPE").unwrap_or_else(|_| {
-        eprintln!("Error: KRATIX_WORKFLOW_TYPE environment variable not set.");
-        process::exit(1);
-    });
-
-    let base_instance = std::env::var("BASE_INSTANCE").unwrap_or_else(|_| {
-        eprintln!("Error: SOURCE_DIR environment variable not set.");
-        process::exit(1);
-    });
-    // Get source and destination from environment variables
-    let source_dir = std::env::var("KRATIX_INPUT").unwrap_or_else(|_| {
-        eprintln!("Error: SOURCE_DIR environment variable not set.");
-        process::exit(1);
-    });
-
-    let destination_dir = std::env::var("KRATIX_OUTPUT").unwrap_or_else(|_| {
-        eprintln!("Error: DESTINATION_DIR environment variable not set.");
-        process::exit(1);
-    });
-
-    // Handle commands
-    match args[1].as_str() {
-        "pipeline" => kratix::run_pipeline(&base_instance,&source_dir,&destination_dir,&workflow_type),
-        _ => {
-            eprintln!("Unknown command: {}", args[1]);
+    // Validate environment variables up front
+    match validate_env_vars() {
+        Ok(()) => (), // Everything is good, proceed
+        Err(errors) => {
+            eprintln!("Error: Missing environment variables:");
+            for error in errors {
+                log::warn!(" - {}", error.var_name);
+            }
             process::exit(1);
         }
     }
 
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        log::warn!("Usage: <command> [build, pipeline, load, push, rmi, pull]");
+        process::exit(1);
+    }
+    
+    // Extract validated environment variables
+    let workflow_type = env::var("KRATIX_WORKFLOW_TYPE").unwrap();
+    let base_instance = env::var("BASE_INSTANCE").unwrap();
+    let dep_dir = env::var("DEPENDENCIES_DIR").unwrap();
+    let res_dir = env::var("RESOURCES_DIR").unwrap();
+    let kratix_input_dir = env::var("KRATIX_INPUT").unwrap();
+    let kratix_output_dir = env::var("KRATIX_OUTPUT").unwrap();
 
-
+    // Handle commands
+    match args[1].as_str() {
+        "pipeline" => kratix::run_pipeline(
+            &base_instance,
+            &res_dir,
+            &dep_dir,
+            &kratix_output_dir,
+            &kratix_input_dir,
+            &workflow_type),
+        _ => {
+            log::warn!("Unknown command: {}", args[1]);
+            process::exit(1);
+        }
+    }
 }
 

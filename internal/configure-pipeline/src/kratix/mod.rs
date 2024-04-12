@@ -1,29 +1,41 @@
 mod pipeline;
 mod promise;
+use log;
 
 pub fn run_pipeline(
     _base_instance: &str,
-    _source_dir: &str,
-    _destination_dir: &str,
+    _res_dir: &str,
+    _dep_dir: &str,
+    _kratix_output_dir: &str,
+    _kratix_input_dir: &str,
     _workflow_type: &str,
 ) {
-    println!("<- Start Pipeline ->");
-    //STEP 1.
-    if _workflow_type == "promise" {
-        // Check if workflow_type is "promise"
-        if let Err(err) = pipeline::copy_files(_source_dir, _destination_dir) {
-            println!("Error during file copy: {}", err);
+    
+    log::info!("<- Start Pipeline ({}) ->", _workflow_type);
+
+    
+    match _workflow_type {
+        "promise" => {
+            // Fullful promise.yaml
+            if let Err(err) = 
+                // tmp/transfer/dependecies -> /kratix/output
+                pipeline::copy_files(_dep_dir, _kratix_output_dir) {
+                log::warn!("Error during file copy: {}", err);
+            }
+        }
+        _ => { 
+            log::info!("  1. transform request");
+            // Fullfil resource_request.yaml
+            promise::transform(_base_instance,
+                               _kratix_output_dir,
+                               _kratix_input_dir); 
         }
     }
 
-    let manifest = pipeline::load_file(_base_instance).expect("Error loading YAML file"); //STEP 2.
+    
+    pipeline::status();
 
-    promise::transform(manifest); //STEP 3.
+    pipeline::list_files_recursively(_kratix_output_dir);
 
-    //pipeline::status();
-
-    let kratix_dir = "/kratix";
-    pipeline::list_files_recursively(kratix_dir);
-
-    println!("<- End Pipeline ->");
+    log::info!("<- End Pipeline ->");
 }

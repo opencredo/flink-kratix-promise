@@ -24,20 +24,23 @@ RUN cargo build --release
 FROM gcr.io/distroless/cc-debian12
 
 
+ENV KRATIX_WORKFLOW_TYPE="promise"
+ENV PIPELINE_NAME="opencredo/flink-configure-pipeline:dev"
+ENV BASE_INSTANCE="/tmp/transfer/resources/minimal-flinkdep-manifest.yaml"
+ENV KRATIX_OUTPUT="/kratix/output"
+ENV KRATIX_INPUT="/kratix/input"
+ENV DEPENDENCIES_DIR="/tmp/transfer/dependencies/"
+ENV RESOURCES_DIR="/tmp/transfer/resources/"
 
-COPY --from=build-env /app/resources /tmp/transfer/resources/
-COPY --from=build-env /app/dependencies/ /tmp/transfer/dependencies/
+
+COPY --from=build-env /app/resources $RESOURCES_DIR
+COPY --from=build-env /app/dependencies/ $DEPENDENCIES_DIR
 
 COPY --from=build-env /app/target/release/configure-pipeline /
 COPY --from=build-env /app/tests/ /kratix
 
 ENV RUST_BACKTRACE=1
 
-ENV KRATIX_WORKFLOW_TYPE="promise"
-ENV PIPELINE_NAME="opencredo/flink-configure-pipeline:dev"
-ENV BASE_INSTANCE="/tmp/transfer/resources/minimal-flinkdep-manifest.yaml"
-ENV KRATIX_OUTPUT="/kratix/output"
-ENV KRATIX_INPUT="/tmp/transfer/dependencies/"
 
 
 CMD ["./configure-pipeline","pipeline"] 

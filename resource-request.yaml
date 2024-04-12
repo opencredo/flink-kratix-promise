@@ -1,7 +1,6 @@
 apiVersion: example.promise.syntasso.io/v1
-kind: # kind
+kind: flinkdeps
 metadata:
-  name: flinkdeps
-  namespace: default
+  name: flinkdep
 spec:
-  name: howard
+  name: amazing-flink
