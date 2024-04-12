@@ -1,0 +1,2 @@
+metadata.name=metadata.name
+spec.memory=spec.jobManager.resource.memory
