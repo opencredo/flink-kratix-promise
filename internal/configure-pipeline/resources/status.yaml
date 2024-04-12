@@ -1,4 +1,4 @@
-message: Resource provisioned with database size 10Gb
+message: Resource provisioned with flink size 10Gb
 connectionDetails:
   host: example.com
   dbName: root

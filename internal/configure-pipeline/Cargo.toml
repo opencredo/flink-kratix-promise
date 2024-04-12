@@ -1,3 +1,6 @@
+[net]
+git-fetch-with-cli = true
+
 [package]
 name = "configure-pipeline"
 version = "0.1.0"
@@ -5,10 +8,16 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[profile.release]
+strip = true  # Automatically strip symbols from the binary.
+lto = true
+opt-level = "z"  # Optimize for size.
+codegen-units = 1
+
 [dependencies]
 yaml-rust2 = "0.7.0"
-log = { version = "0.4", features = ["max_level_debug", "release_max_level_warn"] }
+log = { version = "0.4", features = ["max_level_info", "release_max_level_warn"] }
+env_logger = "0.11.3"
+dotenv = "0.15.0"
 
-
-#[dependencies.kratix-rust]
-#git = "https://github.com/opencredo/kratix-rust.git"
+kratix_utils = { path = "kratix_utils" }

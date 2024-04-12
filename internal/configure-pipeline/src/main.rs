@@ -1,6 +1,8 @@
 use std::{env, process};
 use log;
-mod kratix;
+use dotenv::dotenv;
+use kratix_utils;
+
 
 // Structure to hold potential errors
 #[derive(Debug)]
@@ -36,8 +38,9 @@ fn validate_env_vars() -> Result<(), Vec<EnvVarError>> {
     }
 }
 
+
 fn main() {
-    
+    dotenv().ok();
     // Validate environment variables up front
     match validate_env_vars() {
         Ok(()) => (), // Everything is good, proceed
@@ -64,9 +67,9 @@ fn main() {
     let kratix_input_dir = env::var("KRATIX_INPUT").unwrap();
     let kratix_output_dir = env::var("KRATIX_OUTPUT").unwrap();
 
-    // Handle commands
+    // TODO hhill: pass function to do transform
     match args[1].as_str() {
-        "pipeline" => kratix::run_pipeline(
+        "pipeline" => kratix_utils::run_pipeline(
             &base_instance,
             &res_dir,
             &dep_dir,
