@@ -20,10 +20,41 @@ docker run -e RUST_BACKTRACE=1 \
   $PIPELINE_NAME
 ```
 
+## MiniKube
 
+### Build local pipeline image
 ```bash
+minikube start --driver qemu --memory=4Gb 
 ./internal/scripts/pipeline-image build
-kubectl apply --context $PLATFORM --filename promise.yaml
+```
+
+### Kratix Logs (Debugging)
+```bash 
+kubectl --context $PLATFORM get crds flinkdep.marketplace.kratix.io
 kubectl logs -l=kratix-promise-id=flinkdep -n kratix-platform-system
 
+```
+
+### Setup (Promise)
+```bash
+kubectl apply --context $PLATFORM --filename promise.yaml
+```
+```bash
+kubectl --context $WORKER get pods --watch
+```
+
+### Teardown (Promise)
+```bash
 kubectl delete --context $PLATFORM --filename promise.yaml
+
+```
+
+### Setup (Request)
+```bash
+kubectl apply --context $PLATFORM --filename resource-request.yaml
+```
+
+### Teardown (Request)
+```bash
+kubectl delete --context $PLATFORM --filename resource-request.yaml
+```
