@@ -1,0 +1,17 @@
+# For all rules
+ignore: |
+  *dependencies
+  /bin/
+  !/bin/*.lint-me-anyway.yaml
+
+
+rules:
+  key-duplicates:
+    ignore: |
+      generated
+      *.template.yaml
+  trailing-spaces:
+    ignore: |
+      *.ignore-trailing-spaces.yaml
+      /ascii-art/*
+  key-duplicates: disable
