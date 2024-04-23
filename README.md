@@ -6,6 +6,13 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 
 [![Super-Linter](https://github.com/opencredo/promise-flink/actions/workflows/lint.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
+
+docker run \
+  -e LOG_LEVEL=DEBUG \
+  -e RUN_LOCAL=true \
+  -v /workspace/promise-flink:/tmp/lint \
+  ghcr.io/super-linter/super-linter:latest
+
 ## Prerequisites
 
 - A running Kubernetes cluster
@@ -77,7 +84,7 @@ kubectl apply --context $PLATFORM --filename resource-request.yaml
 
 
 ### Kratix Verification
-```bash 
+```bash
 kubectl --context $PLATFORM get crds flinkdeps.example.promise.syntasso.io
 
 kubectl logs -l=kratix-promise-id=flinkdep -n kratix-platform-system -c flinkdep-promise-pipeline
