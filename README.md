@@ -22,39 +22,75 @@ docker run -e RUST_BACKTRACE=1 \
 
 ## MiniKube
 
+```bash
+CLUSTER_NAME="kratix-labs"
+minikube start --driver qemu --memory=4Gb --container-runtime=docker --nodes 1 -p $CLUSTER_NAME --cni=auto --addons=default-storageclass,registry,storage-provisioner
+
+```
+
+```bash
+
+export PLATFORM=kratix-labs
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
+
+kubectl apply --filename https://github.com/syntasso/kratix/releases/latest/download/install-all-in-one.yaml
+
+kubectl apply --filename https://github.com/syntasso/kratix/releases/latest/download/config-all-in-one.yaml
+
+kubectl get pods --field-selector=status.phase=Pending --all-namespaces
+
+kubectl get namespace kratix-worker-system
+```
+
+### Test Changes
+```bash
+cd internal/configure-pipeline
+cargo build
+cargo run pipeline
+```
+
 ### Build local pipeline image
 ```bash
-minikube start --driver qemu --memory=4Gb 
+eval $(minikube -p $CLUSTER_NAME docker-env)
+
 ./internal/scripts/pipeline-image build
-```
 
-### Kratix Logs (Debugging)
-```bash 
-kubectl --context $PLATFORM get crds flinkdep.marketplace.kratix.io
-kubectl logs -l=kratix-promise-id=flinkdep -n kratix-platform-system
 
 ```
+
 
 ### Setup (Promise)
 ```bash
 kubectl apply --context $PLATFORM --filename promise.yaml
+
 ```
 ```bash
 kubectl --context $WORKER get pods --watch
+```
+
+### Setup (Request)
+Once the flink operator is running as seen in the previous step you are ready to fulfil a [resource-request](resource-request.yaml) as a Flink job:
+```bash
+kubectl apply --context $PLATFORM --filename resource-request.yaml
+```
+
+
+### Kratix Verification
+```bash 
+kubectl --context $PLATFORM get crds flinkdeps.example.promise.syntasso.io
+
+kubectl logs -l=kratix-promise-id=flinkdep -n kratix-platform-system -c flinkdep-promise-pipeline
+
+```
+
+### Teardown (Request)
+```bash
+kubectl delete --context $PLATFORM --filename resource-request.yaml
 ```
 
 ### Teardown (Promise)
 ```bash
 kubectl delete --context $PLATFORM --filename promise.yaml
 
-```
-
-### Setup (Request)
-```bash
-kubectl apply --context $PLATFORM --filename resource-request.yaml
-```
-
-### Teardown (Request)
-```bash
-kubectl delete --context $PLATFORM --filename resource-request.yaml
 ```

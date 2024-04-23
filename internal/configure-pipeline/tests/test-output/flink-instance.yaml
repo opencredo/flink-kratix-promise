@@ -1,21 +1,21 @@
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
-  name: basic-example
-  namespace: default
+  name: amazing-flink
+  namespace: team-amazing
 spec:
   image: flink:1.17
   flinkVersion: v1_17
   flinkConfiguration:
-    taskmanager.numberOfTaskSlots: "2"
+    taskmanager.numberOfTaskSlots: '2'
   serviceAccount: flink
   jobManager:
     resource:
-      memory: "2048m"
+      memory: 2048m
       cpu: 0.5
   taskManager:
     resource:
-      memory: "2048m"
+      memory: 2048m
       cpu: 0.5
   job:
     jarURI: local:///opt/flink/examples/streaming/StateMachineExample.jar

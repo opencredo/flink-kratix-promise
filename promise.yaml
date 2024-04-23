@@ -30,6 +30,31 @@ spec:
                   properties:
                     name:
                       type: string
+                  properties:
+                    namespace:
+                      type: string
+            openAPIV3Schema:
+              properties:
+                spec:
+                  properties:
+                    name:
+                      default: basic-example
+                      description: |
+                        Flink name. A flink deployment will be created with this name. The owner of the deploys will be the teamId.
+                      type: string
+                    env:
+                      default: dev
+                      description: |
+                        Configures and deploys this flink with environment specific configuration. Prod PostgreSQL are configured with backups and more resources.
+                      pattern: ^(dev|prod)$
+                      type: string
+                    teamId:
+                      default: default
+                      description: |
+                        Team ID. A superuser role will be created with this name.
+                      type: string
+                  type: object
+              type: object
   workflows:
     promise:
       configure:
@@ -40,7 +65,7 @@ spec:
             namespace: default
           spec:
             containers:
-            - image: opencredo/flink-configure-pipeline:0.1
+            - image: opencredo/flink-configure-pipeline:0.2
               name: flinkdep-promise-pipeline
               imagePullPolicy: Never
 
@@ -52,7 +77,7 @@ spec:
             name: instance-configure
           spec:
             containers:
-            - image: opencredo/flink-configure-pipeline:0.1
+            - image: opencredo/flink-configure-pipeline:0.2
               name: flinkdep-configure-pipeline
               imagePullPolicy: Never
 status: {}

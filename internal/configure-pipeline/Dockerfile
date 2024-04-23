@@ -1,4 +1,4 @@
-FROM rust:1.68.2-slim-buster as build-env
+FROM rust:1.77.2-slim-buster as build-env
 
 LABEL org.opencontainers.image.authors "info@opencredo.com"
 LABEL org.opencontainers.image.source https://github.com/opencredo/promise-flink
@@ -23,7 +23,7 @@ RUN cargo build --release
 
 FROM gcr.io/distroless/cc-debian12
 
-
+ENV RUST_LOG=debug
 ENV KRATIX_WORKFLOW_TYPE="promise"
 ENV PIPELINE_NAME="opencredo/flink-configure-pipeline:dev"
 ENV BASE_INSTANCE="/tmp/transfer/resources/minimal-flinkdep-manifest.yaml"

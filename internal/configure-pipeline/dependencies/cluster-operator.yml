@@ -141,10 +141,14 @@ data:
     logger.conf.name = org.apache.flink.configuration.GlobalConfiguration
     logger.conf.level = WARN
     
-    # Flink Operator Logging Overrides
-    # rootLogger.level = DEBUG
-    # logger.operator.name= org.apache.flink.kubernetes.operator
-    # logger.operator.level = DEBUG
+    rootLogger.appenderRef.file.ref = LogFile
+    appender.file.name = LogFile
+    appender.file.type = File
+    appender.file.append = false
+    appender.file.fileName = ${sys:log.file}
+    appender.file.layout.type = PatternLayout
+    appender.file.layout.pattern = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %-60c %x - %m%n    
+    
     
   log4j-console.properties: |+
     ################################################################################
@@ -424,7 +428,7 @@ spec:
             - name: LOG_CONFIG
               value: -Dlog4j.configurationFile=/opt/flink/conf/log4j-operator.properties
             - name: JVM_ARGS
-              value: 
+              value: -Dlog.file=/opt/flink/log/operator.log -Xms2048m -Xmx2048m
           resources:
             {}
           securityContext:
@@ -465,7 +469,7 @@ spec:
             - name: LOG_CONFIG
               value: -Dlog4j.configurationFile=/opt/flink/conf/log4j-operator.properties
             - name: JVM_ARGS
-              value: 
+              value: -Dlog.file=/opt/flink/log/webhook.log -Xms256m -Xmx256m
             - name: FLINK_CONF_DIR
               value: /opt/flink/conf
             - name: FLINK_PLUGINS_DIR

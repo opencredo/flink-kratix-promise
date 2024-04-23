@@ -1,6 +1,9 @@
-apiVersion: promise.example.com/v1
-kind: flink
+apiVersion: example.promise.syntasso.io/v1
+kind: flinkdeps
 metadata:
-  name: flink-promise-request
-spec:
   name: flinkdep
+  namespace: default
+spec:
+  name: amazing-flink
+  env: dev
+  teamId: team-amazing
