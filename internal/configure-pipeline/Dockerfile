@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.source https://github.com/opencredo/promise-flink
 
 WORKDIR /app
 
-RUN apt update && apt install -y librust-openssl-dev libssl-dev
+RUN apt-get update && apt-get install -y librust-openssl-dev libssl-dev
 
 RUN set -eux; \
 	adduser -u 70 -S -D -G kratix -H -h /app -s /bin/sh kratix; \
