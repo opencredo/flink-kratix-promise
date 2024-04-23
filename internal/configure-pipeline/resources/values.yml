@@ -10,7 +10,7 @@ defaultConfiguration:
     appender.file.append = false
     appender.file.fileName = ${sys:log.file}
     appender.file.layout.type = PatternLayout
-    appender.file.layout.pattern = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %-60c %x - %m%n    
+    appender.file.layout.pattern = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %-60c %x - %m%n
 
 jvmArgs:
   webhook: "-Dlog.file=/opt/flink/log/webhook.log -Xms256m -Xmx256m"
