@@ -6,4 +6,4 @@ metadata:
 spec:
   name: amazing-flink
   env: dev
-  teamId: team-amazing
+  teamId: default
