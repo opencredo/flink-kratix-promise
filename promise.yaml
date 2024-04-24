@@ -1,0 +1,83 @@
+apiVersion: platform.kratix.io/v1alpha1
+kind: Promise
+metadata:
+  name: flinkdep
+  labels:
+    kratix.io/promise-version: v1.0.0-beta.1
+spec:
+  api:
+    apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    metadata:
+      name: flinkdeps.example.promise.syntasso.io
+    spec:
+      group: example.promise.syntasso.io
+      scope: Namespaced
+      names:
+        plural: flinkdeps
+        singular: flinkdep
+        kind: flinkdeps
+      versions:
+        - name: v1
+          served: true
+          storage: true
+          schema:
+            openAPIV3Schema:
+              type: object
+              properties:
+                spec:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                  properties:
+                    namespace:
+                      type: string
+            openAPIV3Schema:
+              properties:
+                spec:
+                  properties:
+                    name:
+                      default: basic-example
+                      description: |
+                        Flink name. A flink deployment will be created with this name. The owner of the deploys will be the teamId.
+                      type: string
+                    env:
+                      default: dev
+                      description: |
+                        Configures and deploys this flink with environment specific configuration. Prod PostgreSQL are configured with backups and more resources.
+                      pattern: ^(dev|prod)$
+                      type: string
+                    teamId:
+                      default: default
+                      description: |
+                        Team ID. A superuser role will be created with this name.
+                      type: string
+                  type: object
+              type: object
+  workflows:
+    promise:
+      configure:
+        - apiVersion: platform.kratix.io/v1alpha1
+          kind: Pipeline
+          metadata:
+            name: promise-configure
+            namespace: default
+          spec:
+            containers:
+            - image: opencredo/flink-configure-pipeline:0.2
+              name: flinkdep-promise-pipeline
+              imagePullPolicy: Never
+
+    resource:
+      configure:
+        - apiVersion: platform.kratix.io/v1alpha1
+          kind: Pipeline
+          metadata:
+            name: instance-configure
+          spec:
+            containers:
+            - image: opencredo/flink-configure-pipeline:0.2
+              name: flinkdep-configure-pipeline
+              imagePullPolicy: Never
+status: {}
