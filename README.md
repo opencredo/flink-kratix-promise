@@ -4,11 +4,6 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 
 [![Entrypoint](https://github.com/opencredo/promise-flink/actions/workflows/entrypoint.yml/badge.svg)](https://github.com/opencredo/promise-flink/actions/workflows/entrypoint.yml)
 
-docker run \
-  -e LOG_LEVEL=DEBUG \
-  -e RUN_LOCAL=true \
-  -v /workspace/promise-flink:/tmp/lint \
-  ghcr.io/super-linter/super-linter:latest
 
 ## Prerequisites
 
