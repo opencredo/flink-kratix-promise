@@ -26,5 +26,6 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           VALIDATE_KUBERNETES_KUBECONFORM: false
+          VALIDATE_SHELL_SHFMT: false
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

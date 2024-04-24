@@ -15,11 +15,11 @@ RUN set -eux; \
 	chown 775 /app; \
 	chown 775 /kratix;
 
-
-RUN [ "mkdir", "/tmp/transfer" ]
 COPY . /app
-RUN rm -rf /app/target
-RUN cargo build --release
+
+RUN mkdir /tmp/transfer \
+    rm -rf /app/target \
+	cargo build --release;
 
 FROM gcr.io/distroless/cc-debian12
 

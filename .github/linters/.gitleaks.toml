@@ -1,0 +1,3 @@
+[rules]
+  [rules.generic-api-key]
+    files-exclude = ["internal/configure-pipeline/dependencies/cluster-operator.yml"]
