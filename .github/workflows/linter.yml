@@ -26,7 +26,6 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           VALIDATE_KUBERNETES_KUBECONFORM: false
-          VALIDATE_SHELL_SHFMT: false
           VALIDATE_RUST_2015: false
           VALIDATE_RUST_2018: false
           VALIDATE_RUST_2021: false
