@@ -17,8 +17,8 @@ RUN set -eux; \
 
 COPY . /app
 
-RUN mkdir /tmp/transfer \
-    rm -rf /app/target \
+RUN mkdir -p /tmp/transfer; \
+    rm -rf /app/target; \
 	cargo build --release;
 
 FROM gcr.io/distroless/cc-debian12

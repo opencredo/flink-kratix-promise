@@ -11,18 +11,11 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 - Flink Kubernetes Operator installed (See: [https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/))
 - Docker environment with the ability to build images for both amd64 and arm64 architectures.
 
-```bash
-chmod 777 ./internal/configure-pipeline/tests/test-output
-docker run -e RUST_BACKTRACE=1 \
-  -e KRATIX_WORKFLOW_TYPE='promise' \
-  -e KRATIX_MANIFEST='/kratix/input/object.yaml' \
-  $PIPELINE_NAME
-```
-
 ## MiniKube
 
 ```bash
 CLUSTER_NAME="kratix-labs"
+
 minikube start --driver qemu --memory=4Gb --container-runtime=docker --nodes 1 -p $CLUSTER_NAME --cni=auto --addons=default-storageclass,registry,storage-provisioner
 
 ```
@@ -37,13 +30,15 @@ kubectl apply --filename https://github.com/syntasso/kratix/releases/latest/down
 
 kubectl apply --filename https://github.com/syntasso/kratix/releases/latest/download/config-all-in-one.yaml
 
-kubectl get pods --field-selector=status.phase=Pending --all-namespaces
+kubectl get pods --field-selector=status.phase=Pending --all-namespaces -w
 
 kubectl get namespace kratix-worker-system
 ```
 
 ### Test Changes
 ```bash
+# export KRATIX_WORKFLOW_TYPE="promise" or "resource"
+
 cd internal/configure-pipeline
 cargo build
 cargo run pipeline
