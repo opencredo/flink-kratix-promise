@@ -1,5 +1,5 @@
 apiVersion: example.promise.syntasso.io/v1
-kind: Flinkp
+kind: Flink
 metadata:
   name: flink-session-cluster
 spec:

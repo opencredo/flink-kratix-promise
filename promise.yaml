@@ -1,21 +1,21 @@
 apiVersion: platform.kratix.io/v1alpha1
 kind: Promise
 metadata:
-  name: flinkp
+  name: flink
 spec:
   api:
     apiVersion: apiextensions.k8s.io/v1
     kind: CustomResourceDefinition
     metadata:
-      name: flinkps.example.promise.syntasso.io
+      name: flinks.example.promise.syntasso.io
     spec:
       group: example.promise.syntasso.io
       names:
-        kind: Flinkp
-        plural: flinkps
-        singular: flinkp
+        kind: Flink
+        plural: flinks
+        singular: flink
         shortNames:
-          - flinkp
+          - flink
       scope: Namespaced
       versions:
         - name: v1
