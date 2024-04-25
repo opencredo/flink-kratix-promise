@@ -15,7 +15,7 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 
 ### Test Changes
 ```bash
-export WORKSPACE="your path to repo her" # e.g. /Users/username/work/oc
+export WORKSPACE="path to repo"  # see internal/configure-pipeline/.env
 export KRATIX_WORKFLOW_TYPE="promise" or "resource"
 
 cd internal/configure-pipeline
