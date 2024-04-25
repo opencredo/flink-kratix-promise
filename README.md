@@ -14,9 +14,9 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 
 ### Choose implementation
 
-There are 2 versions of the apache flink promise. 
-1. Shell 
-2. Rust. 
+There are 2 versions of the apache flink promise.
+1. Shell
+2. Rust
 
 There is no difference for the user of apache flink promise. Depending on your choice of version please go either in shell or rust folder and then execute below statements.
 
