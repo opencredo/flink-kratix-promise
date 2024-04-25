@@ -8,8 +8,8 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 ## Prerequisites
 
 - A running Kubernetes cluster
-- Flink Kubernetes Operator installed (See: [https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/))
-- Docker environment with the ability to build images for both amd64 and arm64 architectures.
+- Kratix [see install guide](https://docs.kratix.io/main/guides/installing-kratix/single-cluster)
+- Docker environment with the ability to build images for both amd64 or arm64 architectures.
 
 
 
