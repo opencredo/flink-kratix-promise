@@ -1,8 +1,8 @@
 # Stage 1: Build Stage
 FROM alpine:3.19 AS build
 
-LABEL org.opencontainers.image.authors "kratix@syntasso.io"
-LABEL org.opencontainers.image.source https://github.com/syntasso/promise-postgresql
+LABEL org.opencontainers.image.authors "info@opencredo.com"
+LABEL org.opencontainers.image.source https://github.com/opencredo/promise-flink
 
 RUN [ "mkdir", "/tmp/transfer" ]
 RUN [ "mkdir", "-p", "/kratix/output" ]
