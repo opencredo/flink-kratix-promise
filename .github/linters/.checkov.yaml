@@ -5,3 +5,6 @@ compact: true
 skip-check:
   - CKV_DOCKER_2
   - CKV2_GHA_1
+
+directory:
+  - test-dir
