@@ -1,6 +1,6 @@
-use kratix_utils::pipeline::PipelineConfig;
+
 use kratix_utils::run_pipeline;
-use kratix_utils::ResourceRequest;
+
 use std::{env, process};
 
 fn main() {

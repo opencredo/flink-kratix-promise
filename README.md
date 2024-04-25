@@ -11,46 +11,16 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 - Flink Kubernetes Operator installed (See: [https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/))
 - Docker environment with the ability to build images for both amd64 and arm64 architectures.
 
-## MiniKube
 
-```bash
-CLUSTER_NAME="kratix-labs"
-
-minikube start --driver qemu --memory=4Gb --container-runtime=docker --nodes 1 -p $CLUSTER_NAME --cni=auto --addons=default-storageclass,registry,storage-provisioner
-
-```
-
-```bash
-
-export PLATFORM=kratix-labs
-
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
-
-kubectl apply --filename https://github.com/syntasso/kratix/releases/latest/download/install-all-in-one.yaml
-
-kubectl apply --filename https://github.com/syntasso/kratix/releases/latest/download/config-all-in-one.yaml
-
-kubectl get pods --field-selector=status.phase=Pending --all-namespaces -w
-
-kubectl get namespace kratix-worker-system
-```
 
 ### Test Changes
 ```bash
-# export KRATIX_WORKFLOW_TYPE="promise" or "resource"
+export WORKSPACE="your path to repo her" # e.g. /Users/username/work/oc
+export KRATIX_WORKFLOW_TYPE="promise" or "resource"
 
 cd internal/configure-pipeline
 cargo build
-cargo run pipeline
-```
-
-### Build local pipeline image
-```bash
-eval $(minikube -p $CLUSTER_NAME docker-env)
-
-./internal/scripts/pipeline-image build
-
-
+cargo test
 ```
 
 
