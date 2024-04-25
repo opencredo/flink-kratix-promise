@@ -2,9 +2,14 @@
 
 set -eux
 
-if [ $KRATIX_WORKFLOW_TYPE == "promise" ]; then
+if [ "$KRATIX_WORKFLOW_TYPE" == "promise" ]; then
+
+  echo "Executing promise workflow"
   cp /tmp/transfer/dependencies/* /kratix/output/
-else
+
+elif [ "$KRATIX_WORKFLOW_TYPE" == "resource" ]; then
+
+  echo "Executing resource workflow"
   base_instance="/tmp/transfer/resources/flink-basic.yaml"
 
 #  # Read current values from the provided resource request
@@ -17,5 +22,10 @@ else
       .metadata.namespace = \"${namespace}\" |
       .metadata.name = \"${name}\"
     " - > /kratix/output/flink-instance.yaml
+
+else
+
+  echo "Error: Unknown workflow. Exiting with error"
+  exit 1
 
 fi
