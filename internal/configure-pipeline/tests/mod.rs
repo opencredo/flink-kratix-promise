@@ -28,7 +28,7 @@ mod tests {
             params: String::from("(custom)"),
         };
 
-        let _result = kratix_utils::run_pipeline(Some(request));
+        let _result = kratix_utils::run_custom_pipeline(Some(request));
 
         let new_kout_path = format!("{}/flink-instance.yaml", _result.kratix_output_dir());
         assert_eq!(Path::new(&new_kout_path).exists(), true);
