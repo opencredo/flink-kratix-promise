@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+set -eux
+
+if [ "$KRATIX_WORKFLOW_TYPE" == "promise" ]; then
+
+  echo "Executing promise workflow"
+  cp /tmp/transfer/dependencies/* /kratix/output/
+
+elif [ "$KRATIX_WORKFLOW_TYPE" == "resource" ]; then
+
+  echo "Executing resource workflow"
+  base_instance="/tmp/transfer/resources/flink-basic.yaml"
+
+#  # Read current values from the provided resource request
+  name="$(yq eval '.spec.name' /kratix/input/object.yaml)"
+  namespace="$(yq eval '.spec.namespace // "default"' /kratix/input/object.yaml)"
+
+  # Replace defaults with user provided values
+  cat ${base_instance} |
+    yq eval "
+      .metadata.namespace = \"${namespace}\" |
+      .metadata.name = \"${name}\"
+    " - > /kratix/output/flink-instance.yaml
+
+else
+
+  echo "Error: Unknown workflow. Exiting with error"
+  exit 1
+
+fi

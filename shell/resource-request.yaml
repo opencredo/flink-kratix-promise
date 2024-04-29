@@ -1,0 +1,7 @@
+apiVersion: example.promise.syntasso.io/v1
+kind: Flink
+metadata:
+  name: flink-session-cluster
+spec:
+  name: flink-cluster-test
+  namespace: default

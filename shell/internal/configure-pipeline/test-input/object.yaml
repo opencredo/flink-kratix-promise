@@ -1,0 +1,6 @@
+apiVersion: promise.example.com/v1
+kind: Flink
+metadata:
+  name: my-promise-request
+spec:
+  namespace: default

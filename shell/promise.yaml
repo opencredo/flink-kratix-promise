@@ -1,0 +1,62 @@
+apiVersion: platform.kratix.io/v1alpha1
+kind: Promise
+metadata:
+  name: flink
+spec:
+  api:
+    apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    metadata:
+      name: flinks.example.promise.syntasso.io
+    spec:
+      group: example.promise.syntasso.io
+      names:
+        kind: Flink
+        plural: flinks
+        singular: flink
+        shortNames:
+          - flink
+      scope: Namespaced
+      versions:
+        - name: v1
+          served: true
+          storage: true
+          schema:
+            openAPIV3Schema:
+              type: object
+              properties:
+                spec:
+                  type: object
+                  properties:
+                    namespace:
+                      default: default
+                      description: Kubernetes namespace to create flink cluster.
+                      type: string
+                    name:
+                      type: string
+                      description: Flink cluster name
+  workflows:
+    promise:
+      configure:
+        - apiVersion: platform.kratix.io/v1alpha1
+          kind: Pipeline
+          metadata:
+            name: promise-configure
+            namespace: default
+          spec:
+            containers:
+              - image: opencredo/promise-flink/flink-configure-pipeline:v0.1.0
+                name: flink-promise-pipeline
+                imagePullPolicy: Never
+    resource:
+      configure:
+        - apiVersion: platform.kratix.io/v1alpha1
+          kind: Pipeline
+          metadata:
+            name: instance-configure
+            namespace: default
+          spec:
+            containers:
+              - image: opencredo/promise-flink/flink-configure-pipeline:v0.1.0
+                name: flink-instance-promise-pipeline
+                imagePullPolicy: Never
