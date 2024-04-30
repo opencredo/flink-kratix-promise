@@ -18,6 +18,8 @@ spec:
       memory: "2048m"
       cpu: 1
   job:
+    # How general purpose is the promise meant to be? Should we provide a way of configuring stuff like the job?
+    # Same goes for the flink.conf file in operator.yaml
     jarURI: local:///opt/flink/examples/streaming/StateMachineExample.jar
     parallelism: 2
     upgradeMode: stateless
