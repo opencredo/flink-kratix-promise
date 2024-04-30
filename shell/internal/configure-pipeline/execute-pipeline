@@ -2,17 +2,17 @@
 
 set -eux
 
-if [ "$KRATIX_WORKFLOW_TYPE" == "promise" ]; then
+if [ "$KRATIX_WORKFLOW_TYPE" = "promise" ]; then
 
   echo "Executing promise workflow"
   cp /tmp/transfer/dependencies/* /kratix/output/
 
-elif [ "$KRATIX_WORKFLOW_TYPE" == "resource" ]; then
+elif [ "$KRATIX_WORKFLOW_TYPE" = "resource" ]; then
 
   echo "Executing resource workflow"
   base_instance="/tmp/transfer/resources/flink-basic.yaml"
 
-#  # Read current values from the provided resource request
+  # Read current values from the provided resource request
   name="$(yq eval '.spec.name' /kratix/input/object.yaml)"
   namespace="$(yq eval '.spec.namespace // "default"' /kratix/input/object.yaml)"
 
