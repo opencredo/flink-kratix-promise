@@ -19,12 +19,15 @@ impl ResourceRequest for MyPromise {
 mod tests {
     use super::*;
 
+    const WORKSPACE: &str = "WORKSPACE";
     const KRATIX_WORKFLOW_TYPE: &str = "KRATIX_WORKFLOW_TYPE";
 
     #[test]
     fn test_promise_request() -> Result<(), String> {
         init_logger();
 
+        let current_dir = env::current_dir().unwrap();
+        env::set_var(WORKSPACE, current_dir);
         env::set_var(KRATIX_WORKFLOW_TYPE, "promise");
 
         let request = MyPromise {
@@ -45,6 +48,8 @@ mod tests {
     fn test_resource_request() -> Result<(), String> {
         init_logger();
 
+        let current_dir = env::current_dir().unwrap();
+        env::set_var(WORKSPACE, current_dir);
         env::set_var(KRATIX_WORKFLOW_TYPE, "resource");
 
         let request = MyPromise {
