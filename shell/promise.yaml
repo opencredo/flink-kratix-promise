@@ -1,17 +1,22 @@
 apiVersion: platform.kratix.io/v1alpha1
 kind: Promise
 metadata:
-  name: flinkdep
-  labels:
-    kratix.io/promise-version: v1.0.0-beta.1
+  name: flink
 spec:
   api:
     apiVersion: apiextensions.k8s.io/v1
     kind: CustomResourceDefinition
     metadata:
-      name: flinkdeps.example.promise.syntasso.io
+      name: flinks.example.promise.syntasso.io
     spec:
       group: example.promise.syntasso.io
+      names:
+        kind: Flink
+        plural: flinks
+        singular: flink
+        shortNames:
+          - flink
+      scope: Namespaced
       versions:
         - name: v1
           served: true
@@ -23,21 +28,13 @@ spec:
                 spec:
                   type: object
                   properties:
+                    namespace:
+                      default: default
+                      description: Kubernetes namespace to create flink cluster.
+                      type: string
                     name:
                       type: string
-                    env:
-                      type: string
-                    teamId:
-                      type: string
-                    jarURI:
-                      type: string
-      scope: Namespaced
-      names:
-        plural: flinkdeps
-        singular: flinkdep
-        kind: flinkdep
-        shortNames:
-        - fd
+                      description: Flink cluster name
   workflows:
     promise:
       configure:
@@ -48,19 +45,18 @@ spec:
             namespace: default
           spec:
             containers:
-            - image: opencredo/flink-configure-pipeline:dev
-              name: flinkdep-promise-pipeline
-              imagePullPolicy: Never
-
+              - image: opencredo/promise-flink/flink-configure-pipeline:v0.1.0
+                name: flink-promise-pipeline
+                imagePullPolicy: Never
     resource:
       configure:
         - apiVersion: platform.kratix.io/v1alpha1
           kind: Pipeline
           metadata:
             name: instance-configure
+            namespace: default
           spec:
             containers:
-            - image: opencredo/flink-configure-pipeline:dev
-              name: flinkdep-configure-pipeline
-              imagePullPolicy: Never
-status: {}
+              - image: opencredo/promise-flink/flink-configure-pipeline:v0.1.0
+                name: flink-instance-promise-pipeline
+                imagePullPolicy: Never

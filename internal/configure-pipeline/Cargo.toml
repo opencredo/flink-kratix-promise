@@ -18,7 +18,6 @@ codegen-units = 1
 yaml-rust2 = "0.7.0"
 dotenv = "0.15.0"
 log = "0.4.21"
-log4rs = "1.3.0"
 serde_yaml = "0.9.34"
-kratix_utils = { git = "https://github.com/opencredo/kratix-utils" }
-
+kratix_utils = { git = "https://github.com/opencredo/kratix-utils"}
+env_logger = "0.11.3"

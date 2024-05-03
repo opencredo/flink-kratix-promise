@@ -15,12 +15,18 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 
 ### Test Changes
 ```bash
-export WORKSPACE="path to repo"  # see internal/configure-pipeline/.env
-export KRATIX_WORKFLOW_TYPE="promise" or "resource"
 
+# INPUT tests/test-input/object.yaml
+# OUTPUT tests/test-output/
+# ENVs see internal/configure-pipeline/.env
+
+export WORKSPACE="<path-to-repo>"  
+export KRATIX_WORKFLOW_TYPE="promise" or "resource"
+```
+```bash
 cd internal/configure-pipeline
 cargo build
-cargo test
+cargo test -- --test-threads=1 # 1 thread is required only otherwise it will fail due to file managment
 ```
 
 
