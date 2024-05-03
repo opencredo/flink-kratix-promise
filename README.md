@@ -4,21 +4,31 @@ This project provides a Kubernetes operator for managing Flink jobs using a Krat
 
 [![Entrypoint](https://github.com/opencredo/promise-flink/actions/workflows/entrypoint.yml/badge.svg)](https://github.com/opencredo/promise-flink/actions/workflows/entrypoint.yml)
 
-[![Super-Linter](https://github.com/opencredo/promise-flink/actions/workflows/lint.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 ## Prerequisites
 
 - A running Kubernetes cluster
-- Flink Kubernetes Operator installed (See: [https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/))
-- Docker environment with the ability to build images for both amd64 and arm64 architectures.
+- Kratix [see install guide](https://docs.kratix.io/main/guides/installing-kratix/single-cluster)
+- Docker environment with the ability to build images for both amd64 or arm64 architectures.
 
-### Choose implementation
 
-There are 2 versions of the apache flink promise.
-1. Shell
-2. Rust
 
-There is no difference for the user of apache flink promise. Depending on your choice of version please go either in shell or rust folder and then execute below statements.
+### Test Changes
+```bash
+
+# INPUT tests/test-input/object.yaml
+# OUTPUT tests/test-output/
+# ENVs see internal/configure-pipeline/.env
+
+export WORKSPACE="<path-to-repo>"  
+export KRATIX_WORKFLOW_TYPE="promise" or "resource"
+```
+```bash
+cd internal/configure-pipeline
+cargo build
+cargo test -- --test-threads=1 # 1 thread is required only otherwise it will fail due to file managment
+```
+
 
 ### Setup (Promise)
 ```bash
@@ -29,7 +39,6 @@ kubectl apply --context $PLATFORM --filename promise.yaml
 kubectl --context $WORKER get pods --watch
 ```
 
-
 ### Setup (Request)
 Once the flink operator is running as seen in the previous step you are ready to fulfil a [resource-request](resource-request.yaml) as a Flink job:
 ```bash
@@ -39,9 +48,9 @@ kubectl apply --context $PLATFORM --filename resource-request.yaml
 
 ### Kratix Verification
 ```bash
-kubectl --context $PLATFORM get crds flinks.example.promise.syntasso.io
+kubectl --context $PLATFORM get crds flinkdeps.example.promise.syntasso.io
 
-kubectl logs -l=kratix-promise-id=flink -n kratix-platform-system -c flink-promise-pipeline
+kubectl logs -l=kratix-promise-id=flinkdep -n kratix-platform-system -c flinkdep-promise-pipeline
 
 ```
 

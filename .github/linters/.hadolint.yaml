@@ -10,3 +10,4 @@ trustedRegistries:
   - ghcr.io
   - "*.gcr.io"
   - quay.io
+  - rust

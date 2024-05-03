@@ -1,0 +1,66 @@
+apiVersion: platform.kratix.io/v1alpha1
+kind: Promise
+metadata:
+  name: flinkdep
+  labels:
+    kratix.io/promise-version: v1.0.0-beta.1
+spec:
+  api:
+    apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    metadata:
+      name: flinkdeps.example.promise.syntasso.io
+    spec:
+      group: example.promise.syntasso.io
+      versions:
+        - name: v1
+          served: true
+          storage: true
+          schema:
+            openAPIV3Schema:
+              type: object
+              properties:
+                spec:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    env:
+                      type: string
+                    teamId:
+                      type: string
+                    jarURI:
+                      type: string
+      scope: Namespaced
+      names:
+        plural: flinkdeps
+        singular: flinkdep
+        kind: flinkdep
+        shortNames:
+        - fd
+  workflows:
+    promise:
+      configure:
+        - apiVersion: platform.kratix.io/v1alpha1
+          kind: Pipeline
+          metadata:
+            name: promise-configure
+            namespace: default
+          spec:
+            containers:
+            - image: opencredo/flink-configure-pipeline:dev
+              name: flinkdep-promise-pipeline
+              imagePullPolicy: Never
+
+    resource:
+      configure:
+        - apiVersion: platform.kratix.io/v1alpha1
+          kind: Pipeline
+          metadata:
+            name: instance-configure
+          spec:
+            containers:
+            - image: opencredo/flink-configure-pipeline:dev
+              name: flinkdep-configure-pipeline
+              imagePullPolicy: Never
+status: {}

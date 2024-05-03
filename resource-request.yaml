@@ -1,0 +1,10 @@
+apiVersion: example.promise.syntasso.io/v1
+kind: flinkdep
+metadata:
+  name: flinkdep-amazing-flink
+  namespace: default
+spec:
+  name: amazing-flink
+  env: dev
+  teamId: default
+  jarURI: local:///opt/flink/examples/streaming/StateMachineExample.jar

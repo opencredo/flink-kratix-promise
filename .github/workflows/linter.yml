@@ -26,5 +26,8 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           VALIDATE_KUBERNETES_KUBECONFORM: false
-          # To report GitHub Actions status checks
+          VALIDATE_RUST_2015: false
+          VALIDATE_RUST_2018: false
+          VALIDATE_RUST_2021: false
+          VALIDATE_JSCPD: false # because of two implementation shell and rust
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
