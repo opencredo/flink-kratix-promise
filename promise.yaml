@@ -51,7 +51,7 @@ spec:
             namespace: default
           spec:
             containers:
-            - image: ghcr.io/opencredo/flink-kratix-promise:main
+            - image: ghcr.io/opencredo/flink-kratix-promise:pr-54
               name: flinkdep-promise-pipeline
               imagePullPolicy: IfNotPresent
 
@@ -63,7 +63,7 @@ spec:
             name: instance-configure
           spec:
             containers:
-            - image: ghcr.io/opencredo/flink-kratix-promise:main
+            - image: ghcr.io/opencredo/flink-kratix-promise:pr-54
               name: flinkdep-configure-pipeline
               imagePullPolicy: IfNotPresent
 status: {}
