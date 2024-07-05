@@ -5,6 +5,9 @@ metadata:
   labels:
     kratix.io/promise-version: v1.0.0-beta.1
 spec:
+  destinationSelectors:
+    - matchLabels:
+        environment: dev
   api:
     apiVersion: apiextensions.k8s.io/v1
     kind: CustomResourceDefinition
@@ -48,9 +51,9 @@ spec:
             namespace: default
           spec:
             containers:
-            - image: opencredo/flink-configure-pipeline:dev
+            - image: ghcr.io/opencredo/flink-kratix-promise:main
               name: flinkdep-promise-pipeline
-              imagePullPolicy: Never
+              imagePullPolicy: IfNotPresent
 
     resource:
       configure:
@@ -60,7 +63,7 @@ spec:
             name: instance-configure
           spec:
             containers:
-            - image: opencredo/flink-configure-pipeline:dev
+            - image: ghcr.io/opencredo/flink-kratix-promise:main
               name: flinkdep-configure-pipeline
-              imagePullPolicy: Never
+              imagePullPolicy: IfNotPresent
 status: {}
