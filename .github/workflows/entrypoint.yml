@@ -5,6 +5,9 @@ on:
   # IMPORTANT: workflow_dispatch needs to be entered before other properties
   workflow_dispatch:
 
+  push:
+    branches:
+      - "main"
   pull_request:
     branches:
       - "main"
