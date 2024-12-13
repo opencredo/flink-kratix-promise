@@ -3,6 +3,9 @@ name: Docker
 on:
   workflow_call:
 
+  push:
+    branches:
+      - main
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
